@@ -19,7 +19,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 30px 20px;
+      padding: 30px 30px;
+      margin-top: 100px;
     }
 
     .header {
@@ -37,6 +38,11 @@
       font-size: 2em;
       margin: 0;
       animation: fadeIn 1s ease-in-out;
+    }
+
+    .boxes {
+      width: 100%;
+      animation: popIn 0.8s ease;
     }
 
     .box {
@@ -72,6 +78,7 @@
       cursor: pointer;
       margin: 10px;
       transition: transform 0.2s, background 0.3s;
+      margin-bottom: 2px;
     }
 
     button:hover {
@@ -84,9 +91,10 @@
       margin-top: 20px;
       font-size: 1.2em;
       font-weight: bold;
-      color: #7CFC00;
+      color: #2afc00ef;
       min-height: 30px;
       white-space: pre-wrap;
+      padding-bottom: 65px;
     }
 
     .progress-bar {
@@ -96,6 +104,7 @@
       border-radius: 50px;
       margin: 20px 0;
       overflow: hidden;
+      margin-top: -42px;
     }
 
     .progress {
@@ -134,7 +143,7 @@
     @keyframes popIn {
       from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0.1);
       }
       to {
         opacity: 1;
@@ -157,10 +166,33 @@
         opacity: 1;
       }
     }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #152c3b;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      text-align: center;
+      display: none;
+      z-index: 999;
+    }
+
+    .popup h2 {
+      margin-bottom: 20px;
+      color: #ffda77;
+    }
+
+    .popup button {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-
+  <div class="boxes">
   <div class="header">
     <h1>Funny Riddle Time</h1>
   </div>
@@ -175,6 +207,12 @@
       <div class="progress" id="progress"></div>
     </div>
   </div>
+  </div>
+  <div class="popup" id="thankYouPopup">
+    <h2> Thank You for Playing!😊 </h2>
+    <p>Hope you had lots of laughs!</p>
+    <button onclick="restartRiddles()">Play Again</button>
+  </div>
 
   <script>
     const riddles = [
@@ -182,17 +220,17 @@
       { q: "What do computers like to eat?", a: "Chips!" },
       { q: "Why was the math book sad?", a: "Because it had too many problems." },
       { q: "How do you stay warm in any room?", a: "Go to a corner — it's always 90 degrees." },
-      { q: "Which insect is the sneakiest?", a: "A spider (spy-der)!" }, 
+      { q: "Which insect is the sneakiest?", a: "A spider (spy-der)!" },
       { q: "Why did the computer go to the doctor?", a: "It had a virus." },
-      { q: "Why did the stadium get hot after the game?", a: "Because There was no fans." },
+      { q: "Why did the stadium get hot after the game?", a: "Because there was no fans." },
       { q: "Why do bees have sticky hair?", a: "Because they use honeycombs!" },
       { q: "What kind of tree fits in your hand?", a: "A palm tree." },
       { q: "Why do programmers prefer dark mode?", a: "Because light attracts bugs!" },
       { q: "Why did the cat sit on the computer?", a: "To keep an eye on the mouse." },
-      { q: "Why the B alphabet is most coldest letter", a:"Because it is between A and C" },
+      { q: "Why is the B alphabet the coldest letter?", a: "Because it is between A and C." },
       { q: "Why don’t skeletons fight each other?", a: "They don’t have the guts." },
       { q: "What do you call a bear with no teeth?", a: "A gummy bear." },
-      { q: "What gets wetter the more it dries?", a: "Towel" },
+      { q: "What gets wetter the more it dries?", a: "A towel." },
       { q: "What do you call an alligator in a vest?", a: "An investigator." }
     ];
 
@@ -200,12 +238,16 @@
     let current = 0;
 
     function loadRiddle() {
+      if (current >= riddles.length) {
+        showThankYou();
+        return;
+      }
       const riddle = riddles[current];
       document.getElementById("question").textContent = riddle.q;
       document.getElementById("answer").textContent = "";
       document.getElementById("puzzleTitle").textContent = `Riddle #${level}`;
       document.getElementById("nextBtn").style.display = "none";
-      document.getElementById("progress").style.width = `${(current/riddles.length)*100}%`;
+      document.getElementById("progress").style.width = `${(current / riddles.length) * 100}%`;
     }
 
     function revealAnswer() {
@@ -227,13 +269,27 @@
     }
 
     function nextRiddle() {
-      current = (current + 1) % riddles.length;
+      current++;
       level++;
+      loadRiddle();
+    }
+
+    function showThankYou() {
+      document.querySelector(".box").style.display = "none";
+      document.getElementById("thankYouPopup").style.display = "block";
+    }
+
+    function restartRiddles() {
+      current = 0;
+      level = 1;
+      document.getElementById("thankYouPopup").style.display = "none";
+      document.querySelector(".box").style.display = "block";
       loadRiddle();
     }
 
     window.onload = loadRiddle;
   </script>
+  
 
 </body>
 </html>
