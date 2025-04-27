@@ -10,9 +10,9 @@
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
+      color: rgb(250, 249, 249);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -31,11 +31,13 @@
       padding: 20px;
       justify-content: center;
       align-items: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     }
 
     .header h1 {
       font-size: 2em;
       margin: 0;
+      font-weight: bold;
       animation: fadeIn 1s ease-in-out;
     }
 
@@ -54,6 +56,7 @@
       margin-top: 0;
       font-size: 1.6em;
       color: #ffda77;
+      animation: slideOut 2s ease-in-out;
     }
 
     .box p {
@@ -80,7 +83,8 @@
       border-radius: 30px;
       cursor: pointer;
       margin: 10px;
-      transition: transform 0.2s, background 0.3s;
+      transition: transform 0.8s, background 0.3s;
+      border: 1px solid blanchedalmond;
     }
 
     button:hover {
@@ -94,7 +98,7 @@
       font-weight: bold;
       color: #2afc00ef;
       min-height: 30px;
-      white-space: pre-wrap;
+      white-space: normal;
       padding-bottom: 65px;
     }
 
@@ -151,9 +155,20 @@
       to { opacity: 1; }
     }
     @keyframes slideIn {
-      from { transform: translateY(20px); opacity: 0; }
+      from { transform: translateY(90px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+    @keyframes SlideOut {
+  from {
+    transform: translateX(-90px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
   </style>
 </head>
 
@@ -176,7 +191,7 @@
   </div>
 
   <p id="result"></p>
-  <div class="answer" id="answer"></div>
+  <div class="answer" id="answer" style="content: '|';"></div>
 
   <div class="progress-bar">
     <div class="progress" id="progress"></div>
@@ -265,6 +280,7 @@
       }
     };
     typeWriter();
+    document.getElementById(".answer").style.contain = "|";
   }
 
   function nextRiddle() {
